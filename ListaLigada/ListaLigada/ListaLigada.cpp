@@ -117,6 +117,15 @@ void exibirElementos()
 
 void inserirElemento()
 {
+	int elemento;
+	cout << "Digite o elemento: ";
+	cin >> elemento;
+
+	if (posicaoElemento(elemento) != NULL) {
+		cout << "O elemento ja existe" << endl;
+		return;
+	}
+
 	// aloca memoria dinamicamente para o novo elemento
 	NO* novo = (NO*)malloc(sizeof(NO));
 	if (novo == NULL)
@@ -124,16 +133,13 @@ void inserirElemento()
 		return;
 	}
 
-	cout << "Digite o elemento: ";
-	cin >> novo->valor;
+	novo->valor = elemento;
 	novo->prox = NULL;
 
-	if (primeiro == NULL)
-	{
+	if (primeiro == NULL) {
 		primeiro = novo;
 	}
-	else
-	{
+	else {
 		// procura o final da lista
 		NO* aux = primeiro;
 		while (aux->prox != NULL) {
@@ -145,12 +151,47 @@ void inserirElemento()
 
 void excluirElemento()
 {
-	
+	int elemento;
+	cout << "Digite o elemento para excluir: ";
+	cin >> elemento;
+	NO* posElemento = (posicaoElemento(elemento));
+	if (posElemento == NULL) {
+		cout << "ELEMENTO NAO ENCONTRADO" << endl;
+		return;
+	}
+	else if (posElemento == primeiro) {
+		primeiro = primeiro->prox;
+		free(posElemento);
+		cout << "Elemento removido com sucesso!" << endl;
+		return;
+	}
+	else {
+		NO* anterior = NULL;
+		NO* atual = primeiro;
+		while (atual != NULL && atual != posElemento) {
+			anterior = atual;
+			atual = atual->prox;
+		}
+		if (atual != NULL) {
+			anterior->prox = atual->prox;
+			free(atual);
+			cout << "Elemento removido com sucesso!" << endl;
+		}
+	}
 }
 
 void buscarElemento()
 {
-	
+	int elemento;
+	cout << "Digite o elemento para buscar: ";
+	cin >> elemento;
+	NO* pos = posicaoElemento(elemento);
+	if (pos == NULL) {
+		cout << "O elemento nao existe" << endl;
+	}
+	else {
+		cout << "O elemento existe" << endl;
+	}
 }
 
 
